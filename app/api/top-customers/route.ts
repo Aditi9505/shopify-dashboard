@@ -12,14 +12,20 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const customers = await prisma.customer.findMany({
-      where: { tenantId: Number(tenantId) },
-      orderBy: { spend: 'desc' },
-      take: 5,
-      select: { name: true, spend: true }
-    });
+    const topCustomers = await prisma.customer.findMany({
+  where: { tenantId: Number(tenantId) },
+  orderBy: { totalSpent: 'desc' },
+  take: 5,
+  select: {
+    firstName: true,
+    lastName: true,
+    totalSpent: true,
+  },
+});
 
-    return NextResponse.json(customers);
+    
+
+    return NextResponse.json(topCustomers);
   } catch (error) {
     return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
   }

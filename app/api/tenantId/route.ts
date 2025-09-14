@@ -9,13 +9,12 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Define tenantMock with explicit keys
+    // Add explicit string index signature here
     const tenantMock: Record<string, number> = {
       "yoursluxestore.myshopify.com": 1,
       "othershop.myshopify.com": 2,
     };
 
-    // Safely get tenantId from tenantMock
     const tenantId = tenantMock[shop];
 
     if (!tenantId) {

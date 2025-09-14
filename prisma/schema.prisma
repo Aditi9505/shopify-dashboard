@@ -14,6 +14,15 @@ model Tenant {
   products    Product[]
   customers   Customer[]
   orders      Order[]
+metrics     Metric[]  // <-- Add this line
+}
+
+model Metric {
+  id       Int     @id @default(autoincrement())
+  tenant   Tenant  @relation(fields: [tenantId], references: [id])
+  tenantId Int
+  title    String
+  value    String
 }
 
 model Product {

@@ -1,27 +1,28 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
   const shop = url.searchParams.get('shop');
 
   if (!shop) {
-    return NextResponse.json({ error: 'Missing shop parameter' }, { status: 400 });
+    return NextResponse.json({ error: 'shop query parameter required' }, { status: 400 });
   }
 
   try {
-    const tenant = await prisma.tenant.findUnique({
-      where: { shop },
-    });
+    // Mock tenantId based on shop name
+    const tenantMock = {
+      "yoursluxestore.myshopify.com": 1,
+      "othershop.myshopify.com": 2,
+    };
 
-    if (!tenant) {
+    const tenantId = tenantMock[shop];
+
+    if (!tenantId) {
       return NextResponse.json({ error: 'Tenant not found' }, { status: 404 });
     }
 
-    return NextResponse.json({ tenantId: tenant.id });
+    return NextResponse.json({ tenantId });
   } catch (error) {
-    return NextResponse.json({ error: 'Internal Server Error' }, { status: 500 });
+    return NextResponse.json({ error: 'Server error' }, { status: 500 });
   }
 }

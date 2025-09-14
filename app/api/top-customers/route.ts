@@ -1,7 +1,4 @@
 import { NextRequest, NextResponse } from 'next/server';
-import { PrismaClient } from '@prisma/client';
-
-const prisma = new PrismaClient();
 
 export async function GET(req: NextRequest) {
   const url = new URL(req.url);
@@ -12,18 +9,13 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    const topCustomers = await prisma.customer.findMany({
-  where: { tenantId: Number(tenantId) },
-  orderBy: { totalSpent: 'desc' },
-  take: 5,
-  select: {
-    firstName: true,
-    lastName: true,
-    totalSpent: true,
-  },
-});
-
-    
+    const topCustomers = [
+      { name: "Daisy", spend: "₹3,114.13" },
+      { name: "Lily", spend: "₹1,414.82" },
+      { name: "Kiara", spend: "₹979.91" },
+      { name: "Anuj S", spend: "₹543.91" },
+      { name: "Nia Shah", spend: "₹541.62" }
+    ];
 
     return NextResponse.json(topCustomers);
   } catch (error) {

@@ -9,12 +9,13 @@ export async function GET(req: NextRequest) {
   }
 
   try {
-    // Mock tenantId based on shop name
-    const tenantMock = {
+    // Define tenantMock with explicit keys
+    const tenantMock: Record<string, number> = {
       "yoursluxestore.myshopify.com": 1,
       "othershop.myshopify.com": 2,
     };
 
+    // Safely get tenantId from tenantMock
     const tenantId = tenantMock[shop];
 
     if (!tenantId) {

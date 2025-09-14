@@ -1,0 +1,50 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "mysql"
+  url      = env("DATABASE_URL")
+}
+
+model Tenant {
+  id          Int      @id @default(autoincrement())
+  shop        String   @unique
+  accessToken String
+  products    Product[]
+  customers   Customer[]
+  orders      Order[]
+}
+
+model Product {
+  id          String   @id
+  title       String
+  vendor      String
+  productType String   @map("product_type")
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId    Int
+}
+
+model Customer {
+  id          String   @id
+  email       String?
+  firstName   String?  @map("first_name")
+  lastName    String?  @map("last_name")
+  totalSpent  Decimal  @map("total_spent")
+  ordersCount Int      @map("orders_count")
+  tenant      Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId    Int
+  orders      Order[]
+}
+
+model Order {
+  id              String   @id
+  name            String
+  totalPrice      Decimal  @map("total_price")
+  financialStatus String   @map("financial_status")
+  createdAt       DateTime @map("created_at")
+  tenant          Tenant   @relation(fields: [tenantId], references: [id])
+  tenantId        Int
+  customer        Customer? @relation(fields: [customerId], references: [id])
+  customerId      String?
+}

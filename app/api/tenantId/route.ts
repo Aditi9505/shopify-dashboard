@@ -8,21 +8,16 @@ export async function GET(req: NextRequest) {
     return NextResponse.json({ error: 'shop query parameter required' }, { status: 400 });
   }
 
-  try {
-    // Add explicit string index signature here
-    const tenantMock: Record<string, number> = {
-      "yoursluxestore.myshopify.com": 1,
-      "othershop.myshopify.com": 2,
-    };
+  const tenantMock: Record<string, number> = {
+    "yoursluxestore.myshopify.com": 1,
+    "othershop.myshopify.com": 2,
+  };
 
-    const tenantId = tenantMock[shop];
+  const tenantId = tenantMock[shop];
 
-    if (!tenantId) {
-      return NextResponse.json({ error: 'Tenant not found' }, { status: 404 });
-    }
-
-    return NextResponse.json({ tenantId });
-  } catch (error) {
-    return NextResponse.json({ error: 'Server error' }, { status: 500 });
+  if (!tenantId) {
+    return NextResponse.json({ error: 'Tenant not found' }, { status: 404 });
   }
+
+  return NextResponse.json({ tenantId });
 }

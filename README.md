@@ -1,4 +1,5 @@
 Multi-Tenant Shopify Insights Dashboard
+
 This project is a multi-tenant Shopify Data Ingestion & Insights web app that helps Shopify store owners visualize important data like orders, customers, and products in an easy-to-understand way. The project uses Next.js for the frontend with built-in API routes, Prisma ORM for database handling, and it’s deployed on Vercel for fast and scalable hosting
 
 ✅ Features Implemented
